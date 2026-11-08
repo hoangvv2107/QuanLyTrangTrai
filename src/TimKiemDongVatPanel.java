@@ -73,12 +73,23 @@ public class TimKiemDongVatPanel extends JPanel {
 
         loadLoaiFromDatabase();
         btnTimKiem.addActionListener(e -> loadDataDongVat());
+        btnXoaBoLoc.addActionListener(e -> {
+            txtMaGhiChu.setText("");
+            cbLoai.setSelectedIndex(0);
+            cbGioiTinh.setSelectedIndex(0);
+            cbChuong.setSelectedIndex(0);
+            cbTrangThai.setSelectedIndex(0);
+            txtCanNangTu.setText("");
+            txtCanNangDen.setText("");
+            loadDataDongVat();
+        });
         tbKetQua.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tbKetQua.getSelectedRow() != -1) {
                 String maDV = (String) tbKetQua.getValueAt(tbKetQua.getSelectedRow(), 0);
                 loadChiTietBenhAn(maDV);
             }
         });
+        loadDataDongVat();
     }
 
     private void loadLoaiFromDatabase() {
