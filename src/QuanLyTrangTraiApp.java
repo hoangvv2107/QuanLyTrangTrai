@@ -17,8 +17,15 @@ public class QuanLyTrangTraiApp extends JFrame {
         tabbedPane.addTab("Tìm kiếm Động vật (Mục 6)", new TimKiemDongVatPanel());
 
         // Mục 7: Hai màn hình báo cáo
-        tabbedPane.addTab("BC Tồn Chuồng (Mục 7.1)", new BaoCaoTonChuongPanel());
+        BaoCaoTonChuongPanel baoCaoTonChuongPanel = new BaoCaoTonChuongPanel();
+        tabbedPane.addTab("BC Tồn Chuồng (Mục 7.1)", baoCaoTonChuongPanel);
         tabbedPane.addTab("BC Bệnh Án ĐV (Mục 7.2)", new BaoCaoBenhAnPanel());
+
+        tabbedPane.addChangeListener(e -> {
+            if (tabbedPane.getSelectedComponent() == baoCaoTonChuongPanel) {
+                baoCaoTonChuongPanel.lamMoiBaoCao();
+            }
+        });
 
         add(tabbedPane);
     }

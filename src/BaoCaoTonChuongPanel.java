@@ -27,20 +27,28 @@ public class BaoCaoTonChuongPanel extends JPanel {
         btnXuatFile.setForeground(Color.BLACK);
         btnXuatFile.setFocusPainted(false);
         btnXuatFile.setPreferredSize(new Dimension(140, 35));
+
+        JButton btnLamMoi = new JButton("Làm mới");
+        btnLamMoi.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnLamMoi.setFocusPainted(false);
+        btnLamMoi.setPreferredSize(new Dimension(100, 35));
         
         JPanel pnlBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlBottom.add(btnLamMoi);
         pnlBottom.add(btnXuatFile);
         
+        btnLamMoi.addActionListener(e -> lamMoiBaoCao());
         btnXuatFile.addActionListener(e -> xuatFileCSV());
         
         add(lblTitle, BorderLayout.NORTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
         add(pnlBottom, BorderLayout.SOUTH);
         
-        loadBaoCao();
+        lamMoiBaoCao();
     }
 
-    private void loadBaoCao() {
+    public void lamMoiBaoCao() {
+        model.setRowCount(0);
         String sql = "SELECT c.MaChuong, c.TenChuong, c.SucChua, " +
                      "COUNT(dv.MaDongVat) as DangNuoi " +
                      "FROM Chuong c LEFT JOIN DongVat dv ON c.MaChuong = dv.MaChuong AND dv.MaPhieuXuat IS NULL " +

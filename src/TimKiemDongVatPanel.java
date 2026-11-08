@@ -25,7 +25,7 @@ public class TimKiemDongVatPanel extends JPanel {
         gbc.gridx = 0; gbc.gridy = 0; pnlTieuChi.add(new JLabel("Mã / Ghi chú:"), gbc);
         gbc.gridx = 1; pnlTieuChi.add(txtMaGhiChu = new JTextField(15), gbc);
         gbc.gridx = 2; pnlTieuChi.add(new JLabel("Loại:"), gbc);
-        gbc.gridx = 3; pnlTieuChi.add(cbLoai = new JComboBox<>(new String[]{"-- Tất cả --", "Bò", "Lợn", "Gà"}), gbc);
+        gbc.gridx = 3; pnlTieuChi.add(cbLoai = new JComboBox<>(), gbc);
         gbc.gridx = 4; pnlTieuChi.add(new JLabel("Giới tính:"), gbc);
         gbc.gridx = 5; pnlTieuChi.add(cbGioiTinh = new JComboBox<>(new String[]{"-- Tất cả --", "Đực", "Cái", "Trống", "Mái"}), gbc);
 
@@ -71,6 +71,7 @@ public class TimKiemDongVatPanel extends JPanel {
         add(pnlTieuChi, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
 
+        loadLoaiFromDatabase();
         btnTimKiem.addActionListener(e -> loadDataDongVat());
         tbKetQua.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tbKetQua.getSelectedRow() != -1) {
@@ -78,6 +79,31 @@ public class TimKiemDongVatPanel extends JPanel {
                 loadChiTietBenhAn(maDV);
             }
         });
+    }
+
+    private void loadLoaiFromDatabase() {
+        cbLoai.removeAllItems();
+        cbLoai.addItem("-- Tất cả --");
+
+        String sql = "SELECT DISTINCT Loai FROM DongVat " +
+                "WHERE Loai IS NOT NULL AND TRIM(Loai) <> '' ORDER BY Loai";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            if (conn == null) {
+                throw new SQLException("Không thể kết nối cơ sở dữ liệu.");
+            }
+
+            try (PreparedStatement pst = conn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    cbLoai.addItem(rs.getString("Loai"));
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể tải danh sách loại động vật từ cơ sở dữ liệu:\n" + e.getMessage(),
+                    "Lỗi cơ sở dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void loadDataDongVat() {
