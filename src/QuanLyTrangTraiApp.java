@@ -11,7 +11,8 @@ public class QuanLyTrangTraiApp extends JFrame {
 
         // Mục 5: Hai màn hình nhập liệu tiêu biểu
         tabbedPane.addTab("Nhập Chuồng (Mục 5.1)", new NhapChuongPanel());
-        tabbedPane.addTab("Nhập Động Vật (Mục 5.2)", new NhapDongVatPanel());
+        NhapDongVatPanel nhapDongVatPanel = new NhapDongVatPanel();
+        tabbedPane.addTab("Nhập Động Vật (Mục 5.2)", nhapDongVatPanel);
 
         // Mục 6: Màn hình tìm kiếm
         tabbedPane.addTab("Tìm kiếm Động vật (Mục 6)", new TimKiemDongVatPanel());
@@ -22,6 +23,9 @@ public class QuanLyTrangTraiApp extends JFrame {
         tabbedPane.addTab("BC Bệnh Án ĐV (Mục 7.2)", new BaoCaoBenhAnPanel());
 
         tabbedPane.addChangeListener(e -> {
+            if (tabbedPane.getSelectedComponent() == nhapDongVatPanel) {
+                nhapDongVatPanel.lamMoiDanhSachChuong();
+            }
             if (tabbedPane.getSelectedComponent() == baoCaoTonChuongPanel) {
                 baoCaoTonChuongPanel.lamMoiBaoCao();
             }

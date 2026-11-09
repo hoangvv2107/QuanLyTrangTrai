@@ -123,6 +123,10 @@ public class NhapDongVatPanel extends JPanel {
         }
     }
 
+    public void lamMoiDanhSachChuong() {
+        loadComboBoxData();
+    }
+
     private void xuyluLuu() {
         if (txtMaDV.getText().trim().isEmpty() || txtCanNang.getText().trim().isEmpty() ||
                 txtCanNangNhap.getText().trim().isEmpty() || txtGiaNhap.getText().trim().isEmpty()) {
